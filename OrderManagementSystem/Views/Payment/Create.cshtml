@@ -1,0 +1,105 @@
+﻿@model Payment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Payment</h4>
+<hr />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Card Header -->
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-semibold">
+                        <i class="fa-solid fa-box-open me-2"></i> Create New Payment Record
+                    </h4>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body bg-light p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="OrderId" class="form-label fw-semibold">Order ID</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-receipt me-2 text-primary"></i></span>
+                                <input asp-for="OrderId" class="form-control" placeholder="Enter Order ID" />
+                            </div>
+                            <span asp-validation-for="OrderId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PurchaseId" class="form-label fw-semibold">Purchase ID</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-file-invoice-dollar me-2 text-primary"></i></span>
+                                <input asp-for="PurchaseId" class="form-control" placeholder="Enter Purchase ID" />
+                            </div>
+                            <span asp-validation-for="PurchaseId" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PaymentDate" class="form-label fw-semibold">Payment Date</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-calendar-days me-2 text-warning"></i></span>
+                                <input asp-for="PaymentDate" class="form-control" placeholder="Enter Payment Date" />
+                            </div>
+                            <span asp-validation-for="PaymentDate" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="AmountPaid" class="form-label fw-semibold">Amount Paid</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-indian-rupee-sign"></i></span>
+                                <input asp-for="AmountPaid" class="form-control" placeholder="Enter Amount Paid" />
+                            </div>
+                            <span asp-validation-for="AmountPaid" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="PaymentMethod" class="form-label fw-semibold">Method Of Payment</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-credit-card me-2 text-success"></i></span>
+                                <input asp-for="PaymentMethod" class="form-control" placeholder="Enter Payment Method" />
+                            </div>
+                            <span asp-validation-for="PaymentMethod" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="TransactionReference" class="form-label fw-semibold">Transaction Reference</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-hashtag me-2 text-info"></i></span>
+                                <input asp-for="TransactionReference" class="form-control" placeholder="Enter Transaction Reference" />
+                            </div>
+                            <span asp-validation-for="TransactionReference" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">
+                                <i class="fa-solid fa-circle-check me-1"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-white text-center py-3 border-0">
+                    <small class="text-muted">
+                        <i class="fa-solid fa-circle-info me-1 text-primary"></i>
+                        Ensure all fields are filled before saving.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

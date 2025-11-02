@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Menu>
+<ul class="navbar-nav flex-grow-1">
+    @if (User.Identity.IsAuthenticated)
+    {
+        foreach(var item in Model)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="@item.Controller" asp-action="@item.Action">@item.DisplayName</a>
+            </li>
+        }
+        @* <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="ListAllUsers">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Administrative" asp-action="ListRoles">Roles</a>
+        </li> *@
+    }
+</ul>
+

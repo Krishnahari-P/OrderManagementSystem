@@ -29,8 +29,5 @@ namespace OrderManagementSystem.Entity.Models
         public String Address{ get; set; }
         public DateTime CreatedDate { get; set; }
         public ICollection<Order>? Orders { get; set; } = new List<Order>();
-
-
-
     }
 }

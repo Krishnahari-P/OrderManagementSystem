@@ -1,0 +1,75 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@* <h2 class="text-center mb-4">
+    <i class="fa-solid fa-chart-line me-2 text-primary"></i>
+    @if (User.IsInRole("Admin")) { @:Admin Dashboard }
+    else if (User.IsInRole("Manager")) { @:Manager Dashboard }
+    else if (User.IsInRole("Salesman")) { @:Sales Dashboard }
+    else if (User.IsInRole("Vendor")) { @:Vendor Dashboard }
+</h2> *@
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="container mt-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+            <!-- Register User Card -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                                <i class="fa-solid fa-user-plus fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold text-dark">Register New User</h5>
+                        <p class="card-text text-muted small">Create new users and assign roles.</p>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-user-pen me-2"></i> Register
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Users Card -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                                <i class="fa-solid fa-users-gear fa-2x text-info"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold text-dark">User Management</h5>
+                        <p class="card-text text-muted small">View and manage existing users, assign or remove roles.</p>
+                        <a asp-controller="Account" asp-action="ListAllUsers" class="btn btn-outline-info">
+                            <i class="fa-solid fa-list-check me-2"></i> Manage
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example Future Card (Dashboard grows easily) -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                                <i class="fa-solid fa-chart-line fa-2x text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold text-dark">Reports & Analytics</h5>
+                        <p class="card-text text-muted small">View sales reports, performance stats, and more.</p>
+                        <a asp-controller="Reports" asp-action="Index" class="btn btn-outline-success">
+                            <i class="fa-solid fa-chart-pie me-2"></i> View Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

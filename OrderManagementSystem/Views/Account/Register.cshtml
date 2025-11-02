@@ -1,0 +1,54 @@
+﻿@model RegisterViewModel;
+@{
+    ViewData["Title"] = "Register";
+}
+<h1>Register New User</h1>
+<hr />
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 380px; border-radius: 15px;">
+        <div class="text-center mb-4">
+            <i class="fa-solid fa-user-plus fa-3x text-success mb-3"></i>
+            <h3 class="fw-bold text-dark">Create a user Account</h3>
+            <p class="text-muted">Create a new user by filling the details below</p>
+        </div>
+
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UserName" class="form-label fw-semibold">
+                    <i class="fa-solid fa-user me-2"></i>Username
+                </label>
+                <input asp-for="UserName" class="form-control form-control-lg" placeholder="Enter your username" />
+                <span asp-validation-for="UserName" class="text-danger small"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Password" class="form-label fw-semibold">
+                    <i class="fa-solid fa-lock me-2"></i>Password
+                </label>
+                <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="ConfirmPassword" class="form-label fw-semibold">
+                    <i class="fa-solid fa-key me-2"></i>Confirm Password
+                </label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control form-control-lg" placeholder="Re-enter your password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <div class="d-grid">
+                <input type="submit" value="Register" class="btn btn-success btn-lg rounded-pill shadow-sm" />
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="mb-0 text-muted">
+                Already have an account?
+                <a asp-action="Login" class="text-decoration-none fw-semibold">Login here</a>
+            </p>
+        </div>
+    </div>
+</div>

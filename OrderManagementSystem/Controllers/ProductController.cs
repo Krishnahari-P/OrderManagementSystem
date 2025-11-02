@@ -1,0 +1,114 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
+using OrderManagementSystem.Entity.Models;
+using OrderManagementSystem.Services.Repository;
+
+namespace OrderManagementSystem.Controllers
+{
+    public class ProductController : Controller
+    {
+        private readonly IProductRepository _productRepository;
+        private readonly IToastNotification _nToastNotify;
+
+        public ProductController(IProductRepository productRepository, IToastNotification nToastNotify)
+        {
+            _productRepository = productRepository;
+            _nToastNotify = nToastNotify;
+        }
+        public async Task<IActionResult> Index(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
+        {
+            var productList = await _productRepository.GetAllProductsAsync(productName, categoryId, minPrice, maxPrice);
+            return View(productList);
+        }
+        public async Task<IActionResult> List(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
+        {
+            var productList = await _productRepository.GetAllProductsAsync(productName, categoryId, minPrice, maxPrice);
+            return View(productList);
+        }
+        public async Task<IActionResult> ListJson(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
+        {
+            var productList = await _productRepository.GetAllProductsAsync(productName, categoryId, minPrice, maxPrice);
+            return Json(new { data = productList });
+        }
+        public async Task<IActionResult> Create()
+        {
+            Product product = new Product();
+            return View(product);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Create")]
+        public async Task<IActionResult> Create(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                await _productRepository.AddProductAsync(product);
+                _nToastNotify.AddSuccessToastMessage("Product saved successfully");
+                return RedirectToAction(nameof(Index));
+            }
+            _nToastNotify.AddErrorToastMessage("Failed to create product. Please check input values.");
+            return View(product);
+        }
+        public async Task<IActionResult> Detail(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                _nToastNotify.AddErrorToastMessage("Product not found!");
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                _nToastNotify.AddErrorToastMessage("Product not found!");
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Edit")]
+        public async Task<IActionResult> ConfirmEdit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                await _productRepository.UpdateProductAsync(product);
+                _nToastNotify.AddSuccessToastMessage("Product updated successfully");
+                return RedirectToAction(nameof(Index));
+            }
+            _nToastNotify.AddErrorToastMessage("Failed to update product. Please check input values.");
+
+            return View(product);
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+            {
+                _nToastNotify.AddErrorToastMessage("Product not found!");
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public async Task<IActionResult> ConfirmDelete(int id)
+        {
+            try
+            {
+                await _productRepository.DeleteProductAsync(id);
+                _nToastNotify.AddSuccessToastMessage("Product deleted successfully");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+    }
+}

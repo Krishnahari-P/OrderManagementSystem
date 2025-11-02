@@ -1,0 +1,153 @@
+﻿@model IEnumerable<Purchase>
+
+@{
+    ViewData["Title"] = "Purchase";
+}
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Purchase</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modalContent">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-black">
+            <i class="fa-solid fa-tag me-2 text-black"></i> Purchase Details
+        </h2>
+        <a asp-action="Create" class="btn btn-success shadow-sm">
+            <i class="fa-solid fa-user-plus me-2"></i> Add Purchase
+        </a>
+    </div>
+
+    <!-- Search Section -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body bg-light rounded">
+            <form asp-action="Index" method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Order ID</label>
+                    <input type="number" name="purchaseId" class="form-control" placeholder="Enter Purchase Id" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Supplier ID</label>
+                    <input type="number" name="supplierId" class="form-control" placeholder="Enter Supplier Id" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Purchase Date</label>
+                    <input type="date" name="purchaseDate" class="form-control" placeholder="Enter Purchase Date" />
+                </div>
+                <div class="col-md-3 d-grid">
+                    <input type="submit" class="btn btn-primary rounded-pill shadow-sm" value="Search" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Purchase Table -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th><i class="fa-solid fa-file-invoice-dollar me-2 text-primary"></i> Purchase ID</th>
+                        <th><i class="fa-solid fa-truck-field me-2 text-success"></i> Supplier ID</th>
+                        <th><i class="fa-solid fa-calendar-days me-2 text-warning"></i>Purchase Date </th>
+                        <th><i class="fa-solid fa-indian-rupee-sign"></i>Total Amount</th>
+                        <th><i class="fa-solid fa-clipboard-check me-2 text-info"></i> Status</th>
+                        <th><i class="fa-solid fa-gear"></i> Actions</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-muted py-4">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i> No purchases found
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.PurchaseId</td>
+                                <td>@item.SupplierId</td>
+                                <td>@item.PurchaseDate</td>
+                                <td>@item.TotalAmount</td>
+                                <td>@item.Status</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.PurchaseId" class="btn btn-outline-success btn-sm">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.PurchaseId" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                        <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.PurchaseId">
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $(".Details").click(function(){
+                var id=$(this).attr("data-id");
+                $.ajax({
+                    url:"@Url.Action("Detail", "Purchase")",
+                    type:"GET",
+                    data:{"id":id},
+                    dataType:"html",
+                    success:function(data){
+                        $("#modalContent").html(data),
+                        $("#myModal").modal("show");
+
+                    },
+                    error:function(){
+                        alert("Dynamic load failed");
+                    },
+
+                })
+            });
+        });
+
+    </script>
+}

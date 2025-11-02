@@ -1,0 +1,94 @@
+﻿@model OrderManagementSystem.Entity.Models.Product
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Card Header -->
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-semibold">
+                        <i class="fa-solid fa-box-open me-2"></i> Create New Product
+                    </h4>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body bg-light p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Product Name -->
+                        <div class="mb-3">
+                            <label asp-for="ProductName" class="form-label fw-semibold">Product Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-tag text-primary"></i></span>
+                                <input asp-for="ProductName" class="form-control" placeholder="Enter product name" />
+                            </div>
+                            <span asp-validation-for="ProductName" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-layer-group text-primary"></i></span>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                                    <option value="">-- Select Category --</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Unit Price -->
+                        <div class="mb-3">
+                            <label asp-for="UnitPrice" class="form-label fw-semibold">Unit Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-indian-rupee-sign text-success"></i></span>
+                                <input asp-for="UnitPrice" class="form-control" placeholder="Enter price" />
+                            </div>
+                            <span asp-validation-for="UnitPrice" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Stock Quantity -->
+                        <div class="mb-3">
+                            <label asp-for="StockQuantity" class="form-label fw-semibold">Stock Quantity</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-boxes-stacked text-warning"></i></span>
+                                <input asp-for="StockQuantity" class="form-control" placeholder="Enter stock quantity" />
+                            </div>
+                            <span asp-validation-for="StockQuantity" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">
+                                <i class="fa-solid fa-circle-check me-1"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-white text-center py-3 border-0">
+                    <small class="text-muted">
+                        <i class="fa-solid fa-circle-info me-1 text-primary"></i>
+                        Ensure all fields are filled before saving.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

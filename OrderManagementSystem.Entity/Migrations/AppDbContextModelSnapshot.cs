@@ -47,6 +47,14 @@ namespace OrderManagementSystem.Entity.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "fa4156b1-eee5-4e0d-92c1-cbb7cc09c7c5",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -134,6 +142,13 @@ namespace OrderManagementSystem.Entity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8202f7bc-1e9a-4db9-b837-025200fe4485",
+                            RoleId = "fa4156b1-eee5-4e0d-92c1-cbb7cc09c7c5"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -222,6 +237,34 @@ namespace OrderManagementSystem.Entity.Migrations
                         .IsUnique();
 
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("OrderManagementSystem.Entity.Models.Menu", b =>
+                {
+                    b.Property<int>("MenuId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuId"));
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Controller")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("MenuId");
+
+                    b.ToTable("Menu");
                 });
 
             modelBuilder.Entity("OrderManagementSystem.Entity.Models.Order", b =>
@@ -528,6 +571,25 @@ namespace OrderManagementSystem.Entity.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8202f7bc-1e9a-4db9-b837-025200fe4485",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2813c5f7-7dee-4eca-b25a-6361fe2ea272",
+                            Email = "admin@email.com",
+                            EmailConfirmed = false,
+                            IsActive = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EMAIL.COM",
+                            NormalizedUserName = "ADMIN@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHQavqiY2GKRKl63IlUbOqr9UV+ptJ6oQX3Fb5IujqNNs4Sd5Z45tuGMqyakTsAqtA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "92d0db0b-0c84-47da-ba11-632be0d5a601",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@email.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

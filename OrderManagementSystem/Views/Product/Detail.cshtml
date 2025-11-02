@@ -1,0 +1,54 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "DetailsLayout";
+}
+
+<h1>Detail</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UnitPrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StockQuantity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StockQuantity)
+        </dd>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoryId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategorySet)
+        </dt>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CategorySet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CategorySet.CategoryName)
+        </dd>
+    </dl>
+</div>
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="btn btn-outline-success btn-sm">
+        <i class="fa-solid fa-pen-to-square"></i> Edit
+    </a>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Back to List
+    </a>
+</div>
+

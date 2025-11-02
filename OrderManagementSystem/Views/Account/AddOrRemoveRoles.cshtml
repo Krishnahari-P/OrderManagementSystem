@@ -1,0 +1,55 @@
+﻿@model List<AddOrRemoveRolesViewModel>
+
+@{
+    ViewData["Title"] = "AddOrRemoveRoles";
+}
+
+<h1>AddOrRemoveRoles</h1>
+<h4>
+    @ViewBag.UserName
+</h4>
+
+<hr />
+
+<p>
+    <a asp-action="Create">AddOrRemoveRoles</a>
+</p>
+<form asp-action="AddOrRemoveRoles" method="post">
+    <input type="hidden" value="@ViewBag.UserId" name="userId" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().RoleId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().RoleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().IsSelected)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].RoleId)
+                        <input type="hidden" asp-for="@Model[i].RoleId" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model[i].RoleName)
+                        <input type="hidden" asp-for="@Model[i].RoleName" />
+
+                    </td>
+                    <td>
+                        <input asp-for=@Model[i].IsSelected class="form-check-input" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input class="btn btn-info" type="submit" value="AddOrRemoveRoles" />
+</form>

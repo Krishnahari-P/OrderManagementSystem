@@ -1,0 +1,199 @@
+﻿@model IEnumerable<Customer>
+
+@{
+    ViewData["Title"] = "List";
+}
+@section Styles {
+    <link href="~/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+}
+<h1>List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Details of Customer</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="modalContent">
+                Modal body..
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card bg-light">
+    <div class="card-body">
+        <input type="text" name="name" id="FirstName" placeholder="First Name">
+        <input type="text" name="name" id="LastName" placeholder="Last Name">
+        <input type="text" name="phone" id="Phone" placeholder="Phone Number">
+        <input type="text" name="address" id="Address" placeholder="Customer Address">
+        <input type="text" name="email" id="Email" placeholder="Customer Email">
+    </div>
+    <div>
+        <input type="submit" class="btn btn-primary ms-3 mb-2" value="Search">
+    </div>
+</div>
+
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @* @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }    *@
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/datatables/js/jquery.datatables.min.js"></script>
+    <script>
+        function Details(id){
+            // alert(id);
+            $.ajax({
+                    url:"@Url.Action("Detail", "Customer")",
+                    type:"GET",
+                    data:{"id":id},
+                    dataType:"html",
+                    success:function(data){
+                        $("#modalContent").html(data),
+                        $("#myModal").modal("show");
+                    },
+                    error:function(){
+                        alert("Dynamic load failed");
+                    },
+
+            })
+        }
+        function DeleteCustomer(id){
+            $.ajax({
+                url:"@Url.Action("Delete", "Customer")",
+                type:"GET",
+                data:{"id":id},
+                datatype:"html",
+                success:function(data){
+                    $("#modalContent").html(data),
+                    $("#myModal").modal("show");
+                },
+                error:function(){
+                    alert("Dynamic load failed");
+                },
+            })
+        }
+            $(document).ready(function ()
+            {
+                $('#Search').on("click", function () {
+                    _listDataTable.refresh(); // Invoke the function with parentheses
+            });
+
+            _listDataTable.init();
+        });
+        _listDataTable = {
+                dt: null,
+                init: function () {
+                    this.dt = $("#myTable").DataTable({
+                        "processing": true, // for show progress bar
+                        "serverSide": false, // for process server side
+                        "filter": true, // this is for disable filter (search myTablebox)
+                        "orderMulti": true, // for disable multiple column at once
+                        "paging": true,
+                        "ajax": {
+                            "url": '@Url.Action("ListJson", "Customer")',
+                            "type": "GET",
+                            "datatype": "json",
+                            "data": function (d) {
+                                d.firstName = $('#FirstName').val();
+                                d.lastName = $('#LastName').val();
+                                d.phone = $('#Phone').val();
+                                d.address=$('#Address').val();
+                                d.email = $('#Email').val();
+                                // d.age = $('#Age').val();
+                            }
+                        },
+                        "columnDefs": [{
+                            "targets": [0],
+                            "visible": true,
+                            "searchable": true
+                        }],
+                        "columns": [
+                            // { "data": "id", "name": "Id", "autoWidth": true },
+                            { "data": "firstName", "name": "FirstName", "autoWidth": true },
+                            { "data": "lastName", "name": "LastName", "autoWidth": true },
+                            { "data": "phone", "name": "Phone", "autoWidth": true },
+                            { "data": "address", "name": "Address", "autoWidth": true },
+                            { "data": "email", "name": "Email", "autoWidth": true },
+
+                            {
+                                "render": function (data, type, row)
+                                {
+                                    return `<a class="btn btn-info" href="/Customer/Edit/${row.id}">Edit</a>
+                                    <a href="#" class="btn btn-success" onclick=Details(${row.id});>Details</a>
+                                    <a href="#" class="btn btn-danger" onclick=DeleteCustomer(${row.id});>Delete</a>`
+
+
+                                }
+                            }
+                            // {
+                            //     "render": function (data, type, row) { return "<a href='#' class='btn btn-success' onclick=Details('" + row.DeptID + "'); >Details</a>"; }
+                            // },
+                            // {
+                            //     data: null, render: function (data, type, row) {
+                            //         return "<a href='#' class='btn btn-danger' onclick=DeleteDepartment('" + row.DeptID + "'); >Delete</a>";
+                            //     }
+                            // },
+                        ]
+                    });
+                },
+                refresh: function () {
+                    this.dt.ajax.reload(); // Make sure to reload the DataTable
+                }
+            };
+
+    </script>
+}

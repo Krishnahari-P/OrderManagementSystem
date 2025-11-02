@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Entity.Security;
 using System;
@@ -25,6 +26,7 @@ namespace OrderManagementSystem.Entity.Models
         public DbSet<Supplier> SupplierSet { get; set; }
         public DbSet<Purchase> PurchaseSet { get; set; }
         public DbSet<PurchaseItem> PurchaseItemSet { get; set; }
+        public DbSet<Menu> MenuSet {  get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {                
             modelBuilder.Entity<Customer>(entity=>
@@ -107,6 +109,32 @@ namespace OrderManagementSystem.Entity.Models
                .HasColumnType("DECIMAL(10,2)");
 
             });
+
+            ApplicationUser applicationUser = new ApplicationUser { 
+                Id= "8202f7bc-1e9a-4db9-b837-025200fe4485",
+                UserName="admin@email.com",
+                NormalizedUserName="ADMIN@EMAIL.COM",
+                Email="admin@email.com",
+                NormalizedEmail = "ADMIN@EMAIL.COM",
+            };
+            String password = "P@ssw0rd@123";
+            PasswordHasher<ApplicationUser> haser = new PasswordHasher<ApplicationUser>();
+            applicationUser.PasswordHash=haser.HashPassword(applicationUser, password);
+            modelBuilder.Entity<ApplicationUser>().HasData(applicationUser);
+
+            IdentityRole identityRole = new IdentityRole
+            {
+                Id= "fa4156b1-eee5-4e0d-92c1-cbb7cc09c7c5",
+                Name="Admin",
+                NormalizedName="ADMIN",
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(identityRole);
+
+            IdentityUserRole<String> identityUserRole = new IdentityUserRole<String>();
+            identityUserRole.UserId = "8202f7bc-1e9a-4db9-b837-025200fe4485";
+            identityUserRole.RoleId = "fa4156b1-eee5-4e0d-92c1-cbb7cc09c7c5";
+            modelBuilder.Entity<IdentityUserRole<String>>().HasData(identityUserRole);
+
             base.OnModelCreating(modelBuilder); 
         }
     }

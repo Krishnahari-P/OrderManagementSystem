@@ -1,0 +1,71 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                <!-- Card Header -->
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0 fw-semibold">
+                        <i class="fa-solid fa-box-open me-2"></i> Create New Category
+                    </h4>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body bg-light p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="CategoryName" class="form-label fw-semibold">Category Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-tag me-1 text-success"></i></i></span>
+                                <input asp-for="CategoryName" class="form-control" placeholder="Enter category" />
+                            </div>
+                            <span asp-validation-for="CategoryName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-semibold">Description</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="fa-solid fa-align-left me-1 text-info"></i></span>
+                                <input asp-for="Description" class="form-control" placeholder="Enter description" />
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">
+                                <i class="fa-solid fa-circle-check me-1"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-white text-center py-3 border-0">
+                    <small class="text-muted">
+                        <i class="fa-solid fa-circle-info me-1 text-primary"></i>
+                        Ensure all fields are filled before saving.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
