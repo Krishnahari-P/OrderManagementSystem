@@ -26,7 +26,6 @@ namespace OrderManagementSystem.Controllers
                 TotalPayments = _context.PaymentSet.Count(),
                 TotalRevenue = _context.PaymentSet.Sum(p => (decimal?)p.AmountPaid) ?? 0
             };
-
             return View(model);
         }
     }

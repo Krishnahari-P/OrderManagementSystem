@@ -2,7 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-black">Welcome to the Order Management System</h1>
+        <p class="lead text-muted">
+            Streamline your orders, customers, and inventory — all in one place.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Left Section: System Overview -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-start">
+                    <h4 class="fw-semibold text-black mb-3">
+                        <i class="fa-solid fa-chart-line me-2"></i> System Overview
+                    </h4>
+                    <p class="text-muted">
+                        The <strong>Order Management System</strong> helps administrators, managers, and sales teams
+                        efficiently handle products, categories, customers, and suppliers.
+                        Track payments, manage purchases, and monitor order statuses in real-time.
+                    </p>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fa-solid fa-circle-check text-success me-2"></i> Manage Customers & Orders</li>
+                        <li><i class="fa-solid fa-circle-check text-success me-2"></i> Track Payments & Revenues</li>
+                        <li><i class="fa-solid fa-circle-check text-success me-2"></i> Maintain Product Categories & Stock</li>
+                        <li><i class="fa-solid fa-circle-check text-success me-2"></i> Role-based Access Control</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section: Quick Actions -->
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm text-center h-100">
+                <div class="card-body">
+                    <h4 class="fw-semibold text-black mb-3">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i> Get Started
+                    </h4>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <p class="text-muted mb-3">Access your personalized dashboard to manage data.</p>
+                        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary btn-lg w-100">
+                            <i class="fa-solid fa-gauge-high me-2"></i> Go to Dashboard
+                        </a>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-3">Login to access your dashboard and manage orders.</p>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg w-100 mb-2">
+                            <i class="fa-solid fa-right-to-bracket me-2"></i> Login
+                        </a>
+                        
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

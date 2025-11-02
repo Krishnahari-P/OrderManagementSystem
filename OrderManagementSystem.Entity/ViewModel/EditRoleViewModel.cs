@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace OrderManagementSystem.Entity.ViewModel
 {
-    public class CreateRoleViewModel
-    {      
+    public class EditRoleViewModel
+    {
+        [Required]
+        public string Id { get; set; }
         [Required]
         public String RoleName { get; set; }
     }

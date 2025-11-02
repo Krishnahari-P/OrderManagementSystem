@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
@@ -6,6 +7,7 @@ using OrderManagementSystem.Services.Repository;
 
 namespace OrderManagementSystem.Controllers
 {
+    [Authorize(Roles ="Admin,Manager,Vendor")]
     public class PurchaseItemController : Controller
     {
         private readonly IPurchaseItemRepository _purchaseItemRepository;

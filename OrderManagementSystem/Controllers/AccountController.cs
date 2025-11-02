@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Entity.Security;
@@ -49,6 +50,7 @@ namespace OrderManagementSystem.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
@@ -102,11 +104,14 @@ namespace OrderManagementSystem.Controllers
             }
             return View(changePasswordViewModel);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAllUsers()
         {
             var users = await _userManager.Users.ToListAsync();
             return View(users);
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddOrRemoveRoles(String id)
         {
             List<AddOrRemoveRolesViewModel> models = new List<AddOrRemoveRolesViewModel>();
@@ -125,6 +130,9 @@ namespace OrderManagementSystem.Controllers
             return View(models);
         }
         [HttpPost]
+        [ActionName("AddOrRemoveRoles")]
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> AddOrRemoveRoles(List<AddOrRemoveRolesViewModel> addOrRemoveRolesViewModel, String userId)
         {
             if (ModelState.IsValid)

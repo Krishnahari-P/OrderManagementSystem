@@ -3,73 +3,606 @@
     ViewData["Title"] = "Dashboard";
 }
 
-@* <h2 class="text-center mb-4">
-    <i class="fa-solid fa-chart-line me-2 text-primary"></i>
-    @if (User.IsInRole("Admin")) { @:Admin Dashboard }
-    else if (User.IsInRole("Manager")) { @:Manager Dashboard }
-    else if (User.IsInRole("Salesman")) { @:Sales Dashboard }
-    else if (User.IsInRole("Vendor")) { @:Vendor Dashboard }
-</h2> *@
-
 @if (User.IsInRole("Admin"))
 {
-    <div class="container mt-4">
+        <div class="container my-5">
+            <h2 class="fw-bold mb-4 text-center text-black">
+                <i class="fa-solid fa-gauge-high me-2"></i> Admin Dashboard
+            </h2>
+
+            @if (Model != null)
+            {
+                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Customers</h6>
+                                <h3 class="fw-bold text-primary">@Model.TotalCustomers</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Orders</h6>
+                                <h3 class="fw-bold text-success">@Model.TotalOrders</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Products</h6>
+                                <h3 class="fw-bold text-warning">@Model.TotalProducts</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Suppliers</h6>
+                                <h3 class="fw-bold text-info">@Model.TotalSuppliers</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Payments</h6>
+                                <h3 class="fw-bold text-danger">@Model.TotalPayments</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card text-center shadow-sm border-0 rounded-4">
+                            <div class="card-body">
+                                <h6 class="text-muted">Total Revenue</h6>
+                                <h3 class="fw-bold text-dark">@Model.TotalRevenue.ToString("C")</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 
-            <!-- Register User Card -->
+            <!-- Register User -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mb-3">
-                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
                                 <i class="fa-solid fa-user-plus fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="card-title fw-bold text-dark">Register New User</h5>
-                        <p class="card-text text-muted small">Create new users and assign roles.</p>
-                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary">
+                        <h5 class="card-title fw-bold">Register New User</h5>
+                        <p class="text-muted small">Create new users and assign roles.</p>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-primary rounded-pill px-4">
                             <i class="fa-solid fa-user-pen me-2"></i> Register
                         </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Manage Users Card -->
+            <!-- Manage Users -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mb-3">
-                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
+                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
                                 <i class="fa-solid fa-users-gear fa-2x text-info"></i>
                             </div>
                         </div>
-                        <h5 class="card-title fw-bold text-dark">User Management</h5>
-                        <p class="card-text text-muted small">View and manage existing users, assign or remove roles.</p>
-                        <a asp-controller="Account" asp-action="ListAllUsers" class="btn btn-outline-info">
+                        <h5 class="card-title fw-bold">User Management</h5>
+                        <p class="text-muted small">View and manage users, assign or remove roles.</p>
+                        <a asp-controller="Account" asp-action="ListAllUsers" class="btn btn-outline-info rounded-pill px-4">
                             <i class="fa-solid fa-list-check me-2"></i> Manage
                         </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Example Future Card (Dashboard grows easily) -->
+            <!-- Create Role -->
             <div class="col">
-                <div class="card h-100 border-0 shadow-sm text-center">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mb-3">
-                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:70px; height:70px;">
-                                <i class="fa-solid fa-chart-line fa-2x text-success"></i>
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-user-shield fa-2x text-primary"></i>
                             </div>
                         </div>
-                        <h5 class="card-title fw-bold text-dark">Reports & Analytics</h5>
-                        <p class="card-text text-muted small">View sales reports, performance stats, and more.</p>
-                        <a asp-controller="Reports" asp-action="Index" class="btn btn-outline-success">
-                            <i class="fa-solid fa-chart-pie me-2"></i> View Reports
+                        <h5 class="card-title fw-bold">Create Role</h5>
+                        <p class="text-muted small">Add a new role for user management.</p>
+                        <a asp-controller="Administrative" asp-action="CreateRole" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="fa-solid fa-plus me-2"></i> Create
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- List Roles -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-list fa-2x text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">List Roles</h5>
+                        <p class="text-muted small">View and manage existing roles.</p>
+                        <a asp-controller="Administrative" asp-action="ListRoles" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Customers -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-users fa-2x text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Customers</h5>
+                        <p class="text-muted small">Manage customer records and details.</p>
+                        <a asp-controller="Customer" asp-action="Index" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="fa-solid fa-user-magnifying-glass me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-box-open fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Products</h5>
+                        <p class="text-muted small">View, add, and manage products.</p>
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-warning rounded-pill px-4">
+                            <i class="fa-solid fa-box me-2"></i> Manage
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-tags fa-2x text-secondary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Categories</h5>
+                        <p class="text-muted small">Organize products into categories.</p>
+                        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                            <i class="fa-solid fa-layer-group me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-cart-shopping fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Orders</h5>
+                        <p class="text-muted small">Track and manage all customer orders.</p>
+                        <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-clipboard-list fa-2x text-danger"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Order Items</h5>
+                        <p class="text-muted small">View items within each order.</p>
+                        <a asp-controller="OrderItem" asp-action="Index" class="btn btn-outline-danger rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-credit-card fa-2x text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Payments</h5>
+                        <p class="text-muted small">Monitor payment details and transactions.</p>
+                        <a asp-controller="Payment" asp-action="Index" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suppliers -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-truck-field fa-2x text-info"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Suppliers</h5>
+                        <p class="text-muted small">View and manage supplier information.</p>
+                        <a asp-controller="Supplier" asp-action="Index" class="btn btn-outline-info rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchases -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-file-invoice-dollar fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Purchases</h5>
+                        <p class="text-muted small">Track purchase orders and supplier bills.</p>
+                        <a asp-controller="Purchase" asp-action="Index" class="btn btn-outline-warning rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Items -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-clipboard-check fa-2x text-secondary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Purchase Items</h5>
+                        <p class="text-muted small">View individual items in each purchase.</p>
+                        <a asp-controller="PurchaseItem" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hover animation for all cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-6px)';
+                card.style.boxShadow = '0 0.8rem 1.2rem rgba(0,0,0,0.2)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 0.5rem 1rem rgba(0,0,0,0.15)';
+            });
+        });
+    </script>
+}
+
+<!--Manager-->
+@if (User.IsInRole("Manager"))
+{
+    <div class="container my-5">
+        <h2 class="fw-bold mb-4 text-center text-black">
+            <i class="fa-solid fa-briefcase me-2"></i> Manager Dashboard
+        </h2>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+            <!-- Purchases -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-file-invoice-dollar fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Purchases</h5>
+                        <p class="text-muted small">Track purchase orders and supplier bills.</p>
+                        <a asp-controller="Purchase" asp-action="Index" class="btn btn-outline-warning rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Items -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-clipboard-check fa-2x text-secondary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Purchase Items</h5>
+                        <p class="text-muted small">View individual items in each purchase.</p>
+                        <a asp-controller="PurchaseItem" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-cart-shopping fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Orders</h5>
+                        <p class="text-muted small">Track and manage customer orders.</p>
+                        <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-clipboard-list fa-2x text-danger"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Order Items</h5>
+                        <p class="text-muted small">View items within each order.</p>
+                        <a asp-controller="OrderItem" asp-action="Index" class="btn btn-outline-danger rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments -->
+            <div class="col">
+                <div class="card h-100 border-0 shadow-lg rounded-4 text-center">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-3">
+                            <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                                 style="width:70px; height:70px;">
+                                <i class="fa-solid fa-credit-card fa-2x text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="card-title fw-bold">Payments</h5>
+                        <p class="text-muted small">Monitor payments and transactions.</p>
+                        <a asp-controller="Payment" asp-action="Index" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="fa-solid fa-eye me-2"></i> View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (User.IsInRole("Salesman"))
+{
+    <div class="container my-5">
+        <h2 class="fw-bold mb-4 text-center text-black">
+            <i class="fas fa-user-tie me-2"></i> Sales Person Dashboard
+        </h2>
+        <!-- Customers -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-users fa-2x text-success"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Customers</h5>
+                    <p class="text-muted small">Manage customer records and details.</p>
+                    <a asp-controller="Customer" asp-action="Index" class="btn btn-outline-success rounded-pill px-4">
+                        <i class="fa-solid fa-user-magnifying-glass me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Orders -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-cart-shopping fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Orders</h5>
+                    <p class="text-muted small">Track and manage all customer orders.</p>
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill px-4">
+                        <i class="fa-solid fa-eye me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-clipboard-list fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Order Items</h5>
+                    <p class="text-muted small">View items within each order.</p>
+                    <a asp-controller="OrderItem" asp-action="Index" class="btn btn-outline-danger rounded-pill px-4">
+                        <i class="fa-solid fa-eye me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Vendor"))
+{
+    <div class="container my-5">
+        <h2 class="fw-bold mb-4 text-center text-black">
+            <i class="fas fa-truck"></i> Vendor Dashboard
+        </h2>
+        <!-- Products -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-box-open fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Products</h5>
+                    <p class="text-muted small">View, add, and manage products.</p>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-warning rounded-pill px-4">
+                        <i class="fa-solid fa-box me-2"></i> Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-tags fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Categories</h5>
+                    <p class="text-muted small">Organize products into categories.</p>
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fa-solid fa-layer-group me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Suppliers -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-truck-field fa-2x text-info"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Suppliers</h5>
+                    <p class="text-muted small">View and manage supplier information.</p>
+                    <a asp-controller="Supplier" asp-action="Index" class="btn btn-outline-info rounded-pill px-4">
+                        <i class="fa-solid fa-eye me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchases -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-file-invoice-dollar fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Purchases</h5>
+                    <p class="text-muted small">Track purchase orders and supplier bills.</p>
+                    <a asp-controller="Purchase" asp-action="Index" class="btn btn-outline-warning rounded-pill px-4">
+                        <i class="fa-solid fa-eye me-2"></i> View
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Items -->
+        <div class="col">
+            <div class="card h-100 border-0 shadow-lg rounded-4 text-center transition-all">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:70px; height:70px;">
+                            <i class="fa-solid fa-clipboard-check fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                    <h5 class="card-title fw-bold">Purchase Items</h5>
+                    <p class="text-muted small">View individual items in each purchase.</p>
+                    <a asp-controller="PurchaseItem" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fa-solid fa-eye me-2"></i> View
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 }

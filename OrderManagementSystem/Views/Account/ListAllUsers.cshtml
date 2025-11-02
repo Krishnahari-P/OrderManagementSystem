@@ -4,38 +4,37 @@
     ViewData["Title"] = "ListAllUsers";
 }
 
-<h1>ListAllUsers</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4 fw-bold" style="color: black;">List of All Users</h1>
 
-<p>
-    <a asp-action="Register">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-action="Register" class="btn btn-success px-4 fw-semibold">+ Create New User</a>
+    </div>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    <a asp-action="AddOrRemoveRoles" asp-route-id="@item.Id" class="btn btn-primary">AddOrRemoveRoles</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr class="text-center" style="color: black;">
+                    <th>@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="text-center">
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                        <td>
+                            <a asp-action="AddOrRemoveRoles" asp-route-id="@item.Id"
+                               class="btn btn-primary btn-sm px-3 fw-semibold">
+                                Manage Roles
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

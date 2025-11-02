@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
 
 namespace OrderManagementSystem.Controllers
 {
+    [Authorize(Roles = "Salesman,Admin")]
     public class CustomerController : Controller
     {
         private readonly ICustomerRepository _customerRepository;

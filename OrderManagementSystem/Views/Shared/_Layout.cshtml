@@ -13,20 +13,35 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OrderManagementSystem</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm border-bottom mb-3">
+            <div class="container-fluid px-4">
+
+                <!-- Brand -->
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">
+                    OrderManagementSystem
+                </a>
+
+                <!-- Toggler for small screens -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarMenu" aria-controls="navbarMenu"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    @await Component.InvokeAsync("TopMenu")
-                    @await Html.PartialAsync("_LoginPartial")
+
+                <!-- Collapsible Menu -->
+                <div class="collapse navbar-collapse justify-content-between" id="navbarMenu">
+                    <div class="navbar-nav">
+                        @await Component.InvokeAsync("TopMenu")
+                    </div>
+
+                    <div class="d-flex">
+                        @await Html.PartialAsync("_LoginPartial")
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

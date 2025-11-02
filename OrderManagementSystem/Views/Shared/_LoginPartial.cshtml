@@ -1,20 +1,40 @@
-﻿<ul class="navbar-nav flex-grow-1">
+﻿<ul class="navbar-nav ms-auto align-items-center">
     @if (User.Identity.IsAuthenticated)
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+        <li class="nav-item me-2">
+            <a class="nav-link px-3 py-2 rounded text-dark bg-light border border-1 border-secondary-subtle"
+               asp-area="" asp-controller="Account" asp-action="ChangePassword">
+                Change Password
+            </a>
         </li>
+
+        <li class="nav-item me-2">
+            <a class="nav-link px-3 py-2 rounded text-white bg-success fw-semibold"
+               asp-area="" asp-controller="Dashboard" asp-action="Index">
+                Dashboard
+            </a>
+        </li>
+        
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">LogOut</a>
+            <a class="nav-link px-3 py-2 rounded text-white bg-danger fw-semibold"
+               asp-area="" asp-controller="Account" asp-action="Logout">
+                Log Out
+            </a>
         </li>
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+        <li class="nav-item me-2">
+            <a class="nav-link px-3 py-2 rounded text-white bg-primary fw-semibold"
+               asp-area="" asp-controller="Home" asp-action="Index">
+                Home
+            </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        <li class="nav-item me">
+            <a class="nav-link px-3 py-2 rounded text-white bg-primary fw-semibold"
+               asp-area="" asp-controller="Home" asp-action="Privacy">
+                Privacy
+            </a>
         </li>
     }
 </ul>

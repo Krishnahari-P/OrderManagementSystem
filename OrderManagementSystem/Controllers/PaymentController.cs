@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
 
 namespace OrderManagementSystem.Controllers
 {
+    [Authorize(Roles ="Admin,Manager")]
     public class PaymentController : Controller
     {
         private readonly IPaymentRepository _paymentRepository;
