@@ -11,11 +11,13 @@ namespace OrderManagementSystem.Controllers
     {
         private readonly IPaymentRepository _paymentRepository;
         private readonly IToastNotification _nToastNotify;
+        private readonly IPaymentRepository _paymentRepository1;
 
-        public PaymentController(IPaymentRepository paymentRepository,IToastNotification nToastNotify)
+        public PaymentController(IPaymentRepository paymentRepository,IToastNotification nToastNotify,IPaymentRepository paymentRepository1)
         {
             _paymentRepository = paymentRepository;
             _nToastNotify = nToastNotify;
+            _paymentRepository1 = paymentRepository1;
         }
         public async Task<IActionResult> Index(int paymentId, DateTime paymentDate, decimal amountPaid)
         {
@@ -101,5 +103,41 @@ namespace OrderManagementSystem.Controllers
                 throw new Exception(e.Message);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> CheckPayment(int orderId)
+        {
+            if (orderId <= 0)
+                return BadRequest("Invalid order ID.");
+
+            var order = await _paymentRepository.GetOrderForPaymentAsync(orderId);
+            if (order == null)
+                return NotFound("Order not found.");
+
+            return View(order);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmPayment(int orderId)
+        {
+            if (orderId <= 0)
+                return BadRequest("Invalid order ID.");
+
+            bool success = await _paymentRepository.ConfirmPaymentAsync(orderId);
+
+            if (!success)
+            {
+                TempData["ErrorMessage"] = "Payment confirmation failed.";
+                return RedirectToAction("CheckPayment", new { orderId });
+            }
+
+            TempData["SuccessMessage"] = "Payment confirmed successfully!";
+            return RedirectToAction("PaymentSuccess", new { orderId });
+        }
+        [HttpGet]
+        public async Task<IActionResult> PaymentSuccess(int orderId)
+        {
+            var order = await _paymentRepository.GetOrderForPaymentAsync(orderId);
+            return View(order);
+        }
+
     }
 }

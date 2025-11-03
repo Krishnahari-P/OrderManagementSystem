@@ -36,7 +36,7 @@ namespace OrderManagementSystem.Services.Repository
 
         public async Task<List<Order>> GetAllOrdersAsync(int orderId, DateTime orderDate, string status)
         {
-            var query= from order in _context.OrderSet select order;
+            var query = _context.OrderSet.Include(x => x.CustomerSet).AsQueryable();
             if(orderId > 0)
             {
                 query=query.Where(x => x.OrderId == orderId);

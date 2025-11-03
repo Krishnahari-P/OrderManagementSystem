@@ -14,5 +14,7 @@ namespace OrderManagementSystem.Services.Repository
         public Task AddPaymentAsync(Payment payment);
         public Task UpdatePaymentAsync(Payment payment);
         public Task DeletePaymentAsync(int id);
+        public Task<Order?> GetOrderForPaymentAsync(int orderId);
+        public Task<bool> ConfirmPaymentAsync(int orderId);
     }
 }

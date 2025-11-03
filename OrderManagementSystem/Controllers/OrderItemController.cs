@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
@@ -13,18 +14,32 @@ namespace OrderManagementSystem.Controllers
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IToastNotification _nToastNotify;
         private readonly IOrderRepository _orderRepository;
+        private readonly AppDbContext _context;
 
-        public OrderItemController(IOrderItemRepository orderItemRepository, IToastNotification nToastNotify,IOrderRepository orderRepository)
+        public OrderItemController(IOrderItemRepository orderItemRepository, IToastNotification nToastNotify,IOrderRepository orderRepository,AppDbContext context)
         {
             _orderItemRepository = orderItemRepository;
             _nToastNotify = nToastNotify;
             _orderRepository = orderRepository;
+            _context = context;
         }
         public async Task<IActionResult> Index(int orderItemId, int orderId, int productId)
         {
             var orders = await _orderItemRepository.GetAllOrderItemsAsync(orderItemId,orderId , productId);
             return View(orders);
         }
+        public async Task<IActionResult> GetOrderItem(int id)
+        {
+            var orderItems = await _orderItemRepository.GetOrderItemByOrderIdAsync(id);
+
+            if (orderItems == null || !orderItems.Any())
+            {
+                _nToastNotify.AddErrorToastMessage("No order item found");
+                return View(new List<OrderItem>());
+            }
+            return View(orderItems);
+        }
+
         public IActionResult Create()
         {
             OrderItem orderItem = new OrderItem();
@@ -104,6 +119,28 @@ namespace OrderManagementSystem.Controllers
                 throw new Exception(e.Message);
             }
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveItem(int orderItemId)
+        {
+            if (orderItemId <= 0)
+            {
+                return BadRequest("Invalid order item ID.");
+            }
+            var orderItem = await _context.OrderItemSet.AsNoTracking().FirstOrDefaultAsync(o => o.OrderItemId == orderItemId);
+            await _orderItemRepository.RemoveItemAsync(orderItemId);
+            return RedirectToAction("GetOrderItem", new { id = orderItem.OrderId });
+        }
+        [HttpPost]
+        public async Task<IActionResult> ReduceQuantity(int orderItemId)
+        {
+            if (orderItemId <= 0)
+            {
+                return BadRequest("Invalid order item ID.");
+            }
+            var orderItem = await _context.OrderItemSet.AsNoTracking().FirstOrDefaultAsync(o => o.OrderItemId == orderItemId);
+            await _orderItemRepository.ReduceQuantityAsync(orderItemId);
+            return RedirectToAction("GetOrderItem",new { id = orderItem.OrderId }); 
         }
     }
 }

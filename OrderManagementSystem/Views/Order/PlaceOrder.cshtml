@@ -1,0 +1,45 @@
+﻿@* @model PlaceOrderViewModel
+
+<form asp-action="PlaceOrder" method="post">
+    <div class="form-group">
+        <label>Customer</label>
+        <select asp-for="CustomerId" asp-items="ViewBag.Customers" class="form-control"></select>
+    </div>
+
+    <h5>Order Items</h5>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.OrderItems.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <select asp-for="OrderItems[@i].ProductId" asp-items="ViewBag.Products" class="form-control"></select>
+                    </td>
+                    <td><input asp-for="OrderItems[@i].Quantity" class="form-control" /></td>
+                    <td><input asp-for="OrderItems[@i].UnitPrice" class="form-control" /></td>
+                    <td>@(Model.OrderItems[i].Quantity * Model.OrderItems[i].UnitPrice)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5>Payment</h5>
+    <div class="form-group">
+        <label>Amount Paid</label>
+        <input asp-for="Payment.AmountPaid" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Payment Method</label>
+        <input asp-for="Payment.PaymentMethod" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Place Order</button>
+</form> *@

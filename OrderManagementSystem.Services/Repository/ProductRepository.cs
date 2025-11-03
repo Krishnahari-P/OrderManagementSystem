@@ -34,8 +34,7 @@ namespace OrderManagementSystem.Services.Repository
 
         public async Task<List<Product>> GetAllProductsAsync(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
         {
-            var query = from product in _context.ProductSet
-                        select product;
+            var query = _context.ProductSet.Include(x => x.CategorySet).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(productName))
             {

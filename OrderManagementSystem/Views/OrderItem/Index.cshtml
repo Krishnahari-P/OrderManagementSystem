@@ -39,9 +39,6 @@
         <h2 class="fw-bold text-black">
             <i class="fa-solid fa-tag me-2 text-black"></i> Order Items
         </h2>
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="fa-solid fa-user-plus me-2"></i> Add Order Item
-        </a>
     </div>
 
     <!-- Search Section -->
@@ -75,9 +72,9 @@
                     <tr>
                         <th><i class="fa-solid fa-list-ol me-2 text-primary"></i> Order Item ID</th>
                         <th><i class="fa-solid fa-receipt me-2 text-primary"></i> Order ID</th>
-                        <th><i class="fa-solid fa-hashtag"></i> Product ID</th>
+                        <th><i class="fa-solid fa-hashtag"></i> Product Name</th>
                         <th><i class="fa-solid fa-boxes-stacked"></i>Quantity</th>
-                        <th><i class="fa-solid fa-indian-rupee-sign"></i></i> Unit Price</th>
+                        <th><i class="fa-solid fa-indian-rupee-sign"></i> Unit Price</th>
                         <th><i class="fa-solid fa-gear"></i> Actions</th>
                     </tr>
 
@@ -98,12 +95,12 @@
                             <tr>
                                 <td>@item.OrderItemId</td>
                                 <td>@item.OrderId</td>
-                                <td>@item.ProductId</td>
+                                <td>@item.ProductSet.ProductName</td>
                                 <td>@item.Quantity</td>
                                 <td>@item.UnitPrice</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a asp-action="Edit" asp-route-id="@item.OrderItemId" class="btn btn-outline-success btn-sm">
+                                        <a asp-action="Edit" asp-route-id="@item.ProductSet.ProductName" class="btn btn-outline-success btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
                                         <a asp-action="Delete" asp-route-id="@item.OrderItemId" class="btn btn-outline-danger btn-sm">

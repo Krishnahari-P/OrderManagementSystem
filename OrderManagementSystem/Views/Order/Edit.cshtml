@@ -1,4 +1,4 @@
-﻿@model Order
+﻿@* @model Order
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="PlaceOrderEdit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="OrderId" />
             <div class="form-group">
@@ -47,4 +47,97 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@
+@model PlaceOrderViewModel
+
+@{
+    ViewData["Title"] = "Products";
 }
+
+@* <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div> *@
+
+<div class="container py-4">
+
+    <!-- Search Section -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body bg-light rounded">
+            <form asp-action="Index" method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Name Of Product</label>
+                    <input type="text" name="productName" class="form-control" placeholder="Enter product name" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Category Id</label>
+                    <input type="number" name="categoryId" class="form-control" placeholder="Enter category Id" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Minimum Price</label>
+                    <input type="number" name="minPrice" class="form-control" placeholder="Minimum price" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Maximum Price</label>
+                    <input type="number" name="maxPrice" class="form-control" placeholder="Maximum Price" />
+                </div>
+                <div class="col-md-3 d-grid">
+                    <input type="submit" class="btn btn-primary rounded-pill shadow-sm" value="Search" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Table -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th><i class="fa-solid fa-box"></i>Product Name</th>
+                        <th><i class="fa-solid fa-tags"></i> Category</th>
+                        <th><i class="fa-solid fa-indian-rupee-sign"></i>Unit Price</th>
+                        <th><i class="fa-solid fa-boxes-stacked"></i> Stock Quantity</th>
+                        <th><i class="fa-solid fa-gear"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Products.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-muted py-4">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i> No products found
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.CategorySet.CategoryName</td>
+                                <td>@item.UnitPrice</td>
+                                <td>@item.StockQuantity</td>
+                                <td>
+                                    <form asp-controller="Order" asp-action="AddItem" method="post">
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <input type="hidden" name="orderId" value="@Model.Order.OrderId" />
+                                        <input type="number" name="quantity" value="1" min="1" />
+                                        <button type="submit" class="btn btn-success">Add</button>
+                                        <a asp-controller="OrderItem" asp-action="GetOrderItem" asp-route-id="@Model.Order.OrderId" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </a>
+                                    </form>                                  
+                                </td>
+                            </tr>
+                        }
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

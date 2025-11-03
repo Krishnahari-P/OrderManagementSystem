@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Entity.Models;
 using System;
 using System.Collections.Generic;
@@ -62,5 +63,69 @@ namespace OrderManagementSystem.Services.Repository
             _context.PaymentSet.Update(payment);
             await _context.SaveChangesAsync();
         }
+
+        //Payment
+
+        public async Task<Order?> GetOrderForPaymentAsync(int orderId)
+        {
+            return await _context.OrderSet
+                .Include(o => o.CustomerSet)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ProductSet)
+                .Include(o => o.PaymentSet)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+        }
+
+        [HttpPost]
+        public async Task<bool> ConfirmPaymentAsync(int orderId)
+        {
+            var order = await _context.OrderSet
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.ProductSet)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return false;
+
+            }
+            foreach (var item in order.OrderItems)
+            {
+                if (item.ProductSet == null)
+                {
+                    return false;
+
+                }
+                if (item.ProductSet.StockQuantity < item.Quantity)
+                {
+                    return false;
+                }
+            }
+            foreach (var item in order.OrderItems)
+            {
+                item.ProductSet.StockQuantity -= item.Quantity;
+                _context.ProductSet.Update(item.ProductSet);
+            }
+
+            if (order.PaymentSet == null)
+            {
+                var payment = new Payment
+                {
+                    OrderId = order.OrderId,
+                    PaymentDate = DateTime.Now,
+                    AmountPaid = order.TotalAmount,
+                    PaymentMethod = "Online",
+                    TransactionReference = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper()
+                };
+                _context.PaymentSet.Add(payment);
+            }
+            order.Status = "Paid";
+            _context.OrderSet.Update(order);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+
     }
 }

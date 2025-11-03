@@ -79,7 +79,7 @@
                     <tr>
                         <th><i class="fa-solid fa-hashtag"></i>Product ID</th>
                         <th><i class="fa-solid fa-box"></i>Product Name</th>
-                        <th><i class="fa-solid fa-tags"></i> Category Id</th>
+                        <th><i class="fa-solid fa-tags"></i> Category</th>
                         <th><i class="fa-solid fa-indian-rupee-sign"></i>Unit Price</th>
                         <th><i class="fa-solid fa-boxes-stacked"></i> Stock Quantity</th>
                         <th><i class="fa-solid fa-gear"></i> Actions</th>
@@ -101,7 +101,7 @@
                             <tr>
                                 <td>@item.ProductId</td>
                                 <td>@item.ProductName</td>
-                                <td>@item.CategoryId</td>
+                                <td>@item.CategorySet.CategoryName</td>
                                 <td>@item.UnitPrice</td>
                                 <td>@item.StockQuantity</td>
                                 <td>

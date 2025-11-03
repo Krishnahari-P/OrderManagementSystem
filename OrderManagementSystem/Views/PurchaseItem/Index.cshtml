@@ -75,7 +75,7 @@
                     <tr>
                         <th><i class="fa-solid fa-box-open me-2 text-primary"></i> Purchase Item ID</th>
                         <th><i class="fa-solid fa-file-invoice-dollar me-2 text-primary"></i> Purchase ID</th>
-                        <th><i class="fa-solid fa-hashtag"></i> Product ID</th>
+                        <th><i class="fa-solid fa-hashtag"></i> Product</th>
                         <th><i class="fa-solid fa-boxes-stacked"></i>Quantity</th>
                         <th><i class="fa-solid fa-indian-rupee-sign"></i>Unit Cost</th>
                         <th><i class="fa-solid fa-gear"></i> Actions</th>
@@ -98,7 +98,7 @@
                             <tr>
                                 <td>@item.PurchaseItemId</td>
                                 <td>@item.PurchaseId</td>
-                                <td>@item.ProductId</td>
+                                <td>@item.ProductSet.ProductName</td>
                                 <td>@item.Quantity</td>
                                 <td>@item.UnitCost</td>
                                 <td>

@@ -11,8 +11,11 @@ namespace OrderManagementSystem.Services.Repository
     {
         public Task<List<OrderItem>> GetAllOrderItemsAsync(int orderItemId,int orderId,int productId);
         public Task<OrderItem> GetOrderItemByIdAsync(int id);
+        public Task<List<OrderItem>> GetOrderItemByOrderIdAsync(int id);
         public Task AddOrderItemAsync(OrderItem orderItem);
         public Task UpdateOrderItemAsync(OrderItem orderItem);
         public Task DeleteOrderItemAsync(int id);
+        public Task ReduceQuantityAsync(int orderItemId);
+        public Task RemoveItemAsync(int orderItemId);
     }
 }

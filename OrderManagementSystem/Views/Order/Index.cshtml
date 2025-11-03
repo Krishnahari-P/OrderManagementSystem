@@ -39,9 +39,6 @@
         <h2 class="fw-bold text-black">
             <i class="fa-solid fa-tag me-2 text-black"></i> Order Details
         </h2>
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="fa-solid fa-user-plus me-2"></i> Add Order
-        </a>
     </div>
 
     <!-- Search Section -->
@@ -74,7 +71,7 @@
                 <thead class="table-primary">
                     <tr>
                         <th><i class="fa-solid fa-receipt me-2 text-primary"></i> Order ID</th>
-                        <th><i class="fa-solid fa-user me-2 text-success"></i> Customer ID</th>
+                        <th><i class="fa-solid fa-user me-2 text-success"></i> Customer</th>
                         <th><i class="fa-solid fa-calendar-days me-2 text-warning"></i> Order Date</th>
                         <th><i class="fa-solid fa-indian-rupee-sign"></i>Total Amount</th>
                         <th><i class="fa-solid fa-clipboard-check me-2 text-info"></i> Status</th>
@@ -97,9 +94,9 @@
                         {
                             <tr>
                                 <td>@item.OrderId</td>
-                                <td>@item.CustomerId</td>
+                                <td>@item.CustomerSet.FirstName @item.CustomerSet.LastName</td>
                                 <td>@item.OrderDate</td>
-                                <td>@item.TotalAmount<td>
+                                <td>@item.TotalAmount</td>
                                 <td>@item.Status</td>
                                 <td>
                                     <div class="btn-group" role="group">

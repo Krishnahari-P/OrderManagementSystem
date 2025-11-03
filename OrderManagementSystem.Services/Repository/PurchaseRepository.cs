@@ -34,7 +34,7 @@ namespace OrderManagementSystem.Services.Repository
 
         public async Task<List<Purchase>> GetAllPurchaseAsync(int purchaseId, int supplierId, DateTime purchaseDate)
         {
-            var query=from purchase in _context.PurchaseSet select purchase;
+            var query = _context.PurchaseSet.Include(x => x.SupplierSet).AsQueryable();
             if (purchaseId > 0)
             {
                 query=query.Where(x=> x.PurchaseId == purchaseId);
