@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@section Styles {
+    <link href="~/select2/css/select2.min.css" rel="stylesheet" />
+}
 <h1>Create</h1>
 
 <h4>Order</h4>
@@ -26,10 +28,13 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                         <div class="mb-3">
-                            <label asp-for="CustomerId" class="form-label fw-semibold">Customer ID</label>
+                            <label asp-for="CustomerId" class="form-label fw-semibold">Customer Name</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="fa-solid fa-user me-2 text-success"></i></span>
-                                <input asp-for="CustomerId" class="form-control" placeholder="Enter Customer ID" />
+                                @* <input asp-for="CustomerId" class="form-control" placeholder="Enter Customer ID" /> *@
+                                <select asp-for="CustomerId" class="form-select" asp-items="@Model.CustomerList">
+                                    <option value="">-- Select Customer --</option>
+                                </select>
                             </div>
                             <span asp-validation-for="CustomerId" class="text-danger small"></span>
                         </div>
@@ -83,5 +88,13 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/select2/js/select2.full.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             $('#CustomerId').select2();
+        });
+    </script>
 }

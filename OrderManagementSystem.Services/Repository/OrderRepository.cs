@@ -4,6 +4,7 @@ using OrderManagementSystem.Entity.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,6 +50,12 @@ namespace OrderManagementSystem.Services.Repository
                 query=query.Where(x=> x.Status.ToLower() == status.ToLower());
             }
             return await query.ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            var order = await _context.OrderSet.Include(x => x.CustomerSet).ToListAsync();
+            return order;
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)

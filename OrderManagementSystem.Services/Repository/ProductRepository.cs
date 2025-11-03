@@ -60,6 +60,12 @@ namespace OrderManagementSystem.Services.Repository
             return await query.ToListAsync();
         }
 
+        public async Task<List<Product>> GetAllProductsAsync()
+        {
+            var product = await _context.ProductSet.Include(x => x.CategorySet).ToListAsync();
+            return product;
+        }
+
         public async Task<Product> GetProductByIdAsync(int id)
         {
             var product = await _context.ProductSet.FindAsync(id);

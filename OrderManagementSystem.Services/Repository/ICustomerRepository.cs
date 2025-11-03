@@ -10,6 +10,7 @@ namespace OrderManagementSystem.Services.Repository
     public interface ICustomerRepository
     {
         public Task<List<Customer>> GetAllCustomersAsync(String firstName,String lastName, String phone, String address,String email);
+        public Task<List<Customer>> GetAllCustomersAsync();
         public Task<Customer> GetCustomerByIdAsync(int id);
         public Task AddCustomerAsync(Customer customer);
         public Task UpdateCustomerAsync(Customer customer);

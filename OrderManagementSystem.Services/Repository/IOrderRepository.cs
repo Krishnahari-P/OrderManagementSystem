@@ -10,6 +10,7 @@ namespace OrderManagementSystem.Services.Repository
     public interface IOrderRepository
     {
         public Task<List<Order>> GetAllOrdersAsync(int orderId, DateTime OrderDate, String status);
+        public Task<List<Order>> GetAllOrdersAsync();
         public Task<Order> GetOrderByIdAsync(int id);
         public Task AddOrderAsync(Order order);
         public Task UpdateOrderAsync(Order order);

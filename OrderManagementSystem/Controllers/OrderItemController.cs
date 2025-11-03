@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
@@ -11,11 +12,13 @@ namespace OrderManagementSystem.Controllers
     {
         private readonly IOrderItemRepository _orderItemRepository;
         private readonly IToastNotification _nToastNotify;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderItemController(IOrderItemRepository orderItemRepository, IToastNotification nToastNotify)
+        public OrderItemController(IOrderItemRepository orderItemRepository, IToastNotification nToastNotify,IOrderRepository orderRepository)
         {
             _orderItemRepository = orderItemRepository;
             _nToastNotify = nToastNotify;
+            _orderRepository = orderRepository;
         }
         public async Task<IActionResult> Index(int orderItemId, int orderId, int productId)
         {

@@ -59,6 +59,11 @@ namespace OrderManagementSystem.Services.Repository
             return customerList;
         }
 
+        public async Task<List<Customer>> GetAllCustomersAsync()
+        {
+            return await _context.CustomerSet.ToListAsync();
+        }
+
         public async Task<Customer> GetCustomerByIdAsync(int id)
         {
             var customer = await _context.CustomerSet.FindAsync(id);

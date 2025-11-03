@@ -45,6 +45,11 @@ namespace OrderManagementSystem.Services.Repository
             return categoryList;
         }
 
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.CategorySet.ToListAsync();
+        }
+
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
             var category = await _context.CategorySet.FindAsync(id);

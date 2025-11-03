@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create Product";
 }
-
+@section Styles{
+    <link href="~/select2/css/select2.min.css" rel="stylesheet" />
+}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
@@ -36,7 +38,7 @@
                             <label asp-for="CategoryId" class="form-label fw-semibold">Category</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="fa-solid fa-layer-group text-primary"></i></span>
-                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId">
+                                <select asp-for="CategoryId" class="form-select" asp-items="@Model.CategoryList">
                                     <option value="">-- Select Category --</option>
                                 </select>
                             </div>
@@ -88,7 +90,11 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <script src="~/select2/js/select2.full.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function(){
+             $('#CategoryId').select2();
+        });
+    </script>
 }

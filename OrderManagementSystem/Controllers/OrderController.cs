@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
+using System.Threading.Tasks;
 
 namespace OrderManagementSystem.Controllers
 {
@@ -11,20 +13,23 @@ namespace OrderManagementSystem.Controllers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IToastNotification _nToastNotify;
+        private readonly ICustomerRepository _customerRepository;
 
-        public OrderController(IOrderRepository orderRepository, IToastNotification nToastNotify)
+        public OrderController(IOrderRepository orderRepository, IToastNotification nToastNotify,ICustomerRepository customerRepository)
         {
             _orderRepository = orderRepository;
             _nToastNotify = nToastNotify;
+            _customerRepository = customerRepository;
         }
         public async Task<IActionResult> Index(int orderId, DateTime orderDate, String status)
         {
             var orders = await _orderRepository.GetAllOrdersAsync(orderId, orderDate , status);
             return View(orders);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             Order order = new Order();
+            order.CustomerList= await GetCustomerList();
             return View(order);
         }
         [HttpPost]
@@ -39,6 +44,11 @@ namespace OrderManagementSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
             _nToastNotify.AddErrorToastMessage("Failed to create order. Please check input values.");
+            return View(order);
+        }
+        public async Task<IActionResult> ListAll()
+        {
+            var order = await _orderRepository.GetAllOrdersAsync();
             return View(order);
         }
         public async Task<IActionResult> Detail(int id)
@@ -100,6 +110,24 @@ namespace OrderManagementSystem.Controllers
             {
                 throw new Exception(e.Message);
             }
+
+        }
+        private async Task<List<SelectListItem>> GetCustomerList()
+        {
+            var customers = await _customerRepository.GetAllCustomersAsync();
+
+            var customerList = new List<SelectListItem>();
+
+            foreach (Customer customer in customers)
+            {
+                customerList.Add(new SelectListItem
+                {
+                    Value = customer.CustomerId.ToString(),
+                    Text = customer.FirstName + " " + customer.LastName,
+                });
+            }
+
+            return customerList;
 
         }
     }

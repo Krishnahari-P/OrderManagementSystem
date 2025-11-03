@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
+using System.Diagnostics.Contracts;
 
 namespace OrderManagementSystem.Controllers
 {
@@ -29,6 +30,7 @@ namespace OrderManagementSystem.Controllers
             customerList = await _customerRepository.GetAllCustomersAsync(firstName,lastName,phone, address, email);
             return View(customerList);
         }
+
         public async Task<IActionResult> ListJson(String firstName, String lastName, String phone, String address, String email)
         {
             List<Customer> customerList = new();

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
+using System.Diagnostics;
 
 namespace OrderManagementSystem.Controllers
 {
@@ -11,11 +13,13 @@ namespace OrderManagementSystem.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IToastNotification _nToastNotify;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductController(IProductRepository productRepository, IToastNotification nToastNotify)
+        public ProductController(IProductRepository productRepository, IToastNotification nToastNotify,ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _nToastNotify = nToastNotify;
+            _categoryRepository = categoryRepository;
         }
         public async Task<IActionResult> Index(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
         {
@@ -27,6 +31,12 @@ namespace OrderManagementSystem.Controllers
             var productList = await _productRepository.GetAllProductsAsync(productName, categoryId, minPrice, maxPrice);
             return View(productList);
         }
+
+        public async Task<IActionResult> ListAll()
+        {
+            var product = await _productRepository.GetAllProductsAsync();
+            return View(product);
+        }
         public async Task<IActionResult> ListJson(string productName, int? categoryId, decimal? minPrice, decimal? maxPrice)
         {
             var productList = await _productRepository.GetAllProductsAsync(productName, categoryId, minPrice, maxPrice);
@@ -35,6 +45,7 @@ namespace OrderManagementSystem.Controllers
         public async Task<IActionResult> Create()
         {
             Product product = new Product();
+            product.CategoryList = await GetCategoryList();
             return View(product);
         }
         [HttpPost]
@@ -111,6 +122,25 @@ namespace OrderManagementSystem.Controllers
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        private async Task<List<SelectListItem>> GetCategoryList()
+        {
+            var categories = await _categoryRepository.GetAllCategoriesAsync();
+
+            var categoryList = new List<SelectListItem>();
+
+            foreach (Category category in categories)
+            {
+                categoryList.Add(new SelectListItem
+                {
+                    Value = category.CategoryId.ToString(),
+                    Text = category.CategoryName,
+                });
+            }
+
+            return categoryList;
+
         }
     }
 }
