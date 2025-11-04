@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@section Styles{
+    <link href="~/select2/css/select2.min.css" rel="stylesheet" />
+}
 <h1>Create</h1>
 
 <h4>Purchase</h4>
@@ -26,10 +28,12 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                         <div class="mb-3">
-                            <label asp-for="SupplierId" class="form-label fw-semibold">Supplier ID</label>
+                            <label asp-for="SupplierId" class="form-label fw-semibold">Supplier</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="fa-solid fa-truck-field me-2 text-success"></i></span>
-                                <input asp-for="SupplierId" class="form-control" placeholder="Enter Supplier ID" />
+                                <select asp-for="SupplierId" class="form-select" asp-items="@Model.SupplierList">
+                                    <option value="">-- Select Supplier --</option>
+                                </select>
                             </div>
                             <span asp-validation-for="SupplierId" class="text-danger small"></span>
                         </div>
@@ -83,5 +87,13 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/select2/js/select2.full.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             $('#SupplierId').select2();
+        });
+    </script>
 }

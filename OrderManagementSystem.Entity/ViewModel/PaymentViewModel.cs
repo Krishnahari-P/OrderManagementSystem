@@ -9,7 +9,7 @@ namespace OrderManagementSystem.Entity.ViewModel
     public class PaymentViewModel
     {
         public decimal AmountPaid { get; set; }
-        public string PaymentMethod { get; set; }  // e.g., Cash, Card, UPI
+        public string PaymentMethod { get; set; }
     }
 
 }

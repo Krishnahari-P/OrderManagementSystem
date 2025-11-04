@@ -62,5 +62,63 @@ namespace OrderManagementSystem.Services.Repository
             _context.PurchaseItemSet.Update(purchaseItem);
             await _context.SaveChangesAsync();
         }
+        public async Task RemoveItemAsync(int purchaseItemId)
+        {
+            var item = await _context.PurchaseItemSet
+                .Include(pi => pi.PurchaseSet)
+                .Include(pi => pi.ProductSet)
+                .FirstOrDefaultAsync(pi => pi.PurchaseItemId == purchaseItemId);
+
+            if (item == null)
+            {
+                return;
+            }
+            item.PurchaseSet.TotalAmount -= (item.Quantity * item.UnitCost);
+            _context.PurchaseItemSet.Remove(item);
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task ReduceQuantityAsync(int purchaseItemId)
+        {
+            var item = await _context.PurchaseItemSet
+                .Include(pi => pi.PurchaseSet)
+                .Include(pi => pi.ProductSet)
+                .FirstOrDefaultAsync(pi => pi.PurchaseItemId == purchaseItemId);
+
+            if (item == null)
+            {
+                return;
+
+            }
+            var purchase = item.PurchaseSet;
+
+            if (purchase == null)
+            {
+                return;
+            }
+
+            if (item.Quantity > 1)
+            {
+                item.Quantity--;
+                purchase.TotalAmount -= item.UnitCost;
+            }
+            else
+            {
+                purchase.TotalAmount -= item.UnitCost;
+                _context.PurchaseItemSet.Remove(item);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+        public async Task<List<PurchaseItem>> GetPurchaseItemsByPurchaseIdAsync(int purchaseId)
+        {
+            return await _context.PurchaseItemSet
+            .Include(pi => pi.ProductSet)
+            .Include(pi => pi.PurchaseSet)
+                .ThenInclude(p => p.SupplierSet)
+            .Where(pi => pi.PurchaseId == purchaseId)
+            .ToListAsync();
+        }
     }
 }

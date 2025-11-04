@@ -147,8 +147,10 @@ namespace OrderManagementSystem.Controllers
             var product = await _productRepository.GetProductByIdAsync(productId);
 
             if (order == null || product == null)
-
+            {
                 return NotFound();
+
+            }
 
             var existingItem = await _context.OrderItemSet
 

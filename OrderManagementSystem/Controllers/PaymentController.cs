@@ -133,11 +133,47 @@ namespace OrderManagementSystem.Controllers
             return RedirectToAction("PaymentSuccess", new { orderId });
         }
         [HttpGet]
+        public async Task<IActionResult> CheckPurchasePayment(int purchaseId)
+        {
+            if (purchaseId <= 0)
+                return BadRequest("Invalid purchase ID.");
+
+            var purchase = await _paymentRepository.GetPurchaseForPaymentAsync(purchaseId);
+            if (purchase == null)
+                return NotFound("Purchase not found.");
+
+            return View(purchase);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmPurchasePayment(int purchaseId)
+        {
+            if (purchaseId <= 0)
+                return BadRequest("Invalid purchase ID.");
+
+            bool success = await _paymentRepository.ConfirmPurchasePaymentAsync(purchaseId);
+
+            if (!success)
+            {
+                return RedirectToAction("CheckPurchasePayment", new { purchaseId });
+            }
+            return RedirectToAction("PurchasePaymentSuccess", new { purchaseId });
+        }
+        [HttpGet]
         public async Task<IActionResult> PaymentSuccess(int orderId)
         {
             var order = await _paymentRepository.GetOrderForPaymentAsync(orderId);
             return View(order);
         }
+        public async Task<IActionResult> PurchasePaymentSuccess(int purchaseId)
+        {
+            var purchase = await _paymentRepository.GetPurchaseForPaymentAsync(purchaseId);
+            if (purchase == null)
+            {
+                return NotFound("Purchase not found.");
+            }
 
+            return View(purchase);
+        }
+ 
     }
 }

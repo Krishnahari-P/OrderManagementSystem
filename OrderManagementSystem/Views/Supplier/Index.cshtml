@@ -109,6 +109,9 @@
                                         <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.SupplierId">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </a>
+                                        <a asp-controller="Purchase" asp-action="PlaceOrder" asp-route-supplierId="@item.SupplierId" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

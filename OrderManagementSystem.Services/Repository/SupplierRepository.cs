@@ -47,6 +47,11 @@ namespace OrderManagementSystem.Services.Repository
             return await query.ToListAsync();
         }
 
+        public async Task<List<Supplier>> GetAllSupplierAsync()
+        {
+            return await _context.SupplierSet.ToListAsync();
+        }
+
         public async Task<Supplier> GetSupplierByIdAsync(int id)
         {
             var supplier = await _context.SupplierSet.FindAsync(id);

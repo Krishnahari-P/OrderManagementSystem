@@ -29,7 +29,25 @@
     <a asp-action="Edit" asp-route-id="@Model?.CategoryId" class="btn btn-outline-success btn-sm">
         <i class="fa-solid fa-pen-to-square"></i> Edit
     </a>
-    <a asp-action="Index" class="btn btn-secondary">
-        <i class="fa-solid fa-arrow-left"></i> Back to List
-    </a>
 </div>
+<style>
+    dl.row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        dl.row dt {
+            flex: 0 0 25% !important;
+            font-weight: 600;
+            text-align: right;
+            padding-right: 10px;
+            align-self: center;
+        }
+
+        dl.row dd {
+            flex: 0 0 70% !important;
+            margin: 0 !important;
+            align-self: center;
+            word-break: break-word;
+        }
+</style>

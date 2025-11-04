@@ -123,9 +123,13 @@
                                         <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.CustomerId">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </a>
-                                        <a asp-controller="Order" asp-action="PlaceOrder" asp-route-customerId="@item.CustomerId" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa-solid fa-plus"></i>
+                                        <a asp-controller="Order"
+                                           asp-action="PlaceOrder"
+                                           asp-route-customerId="@item.CustomerId"
+                                           class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-plus me-1"></i> Place Order
                                         </a>
+
                                     </div>
                                 </td>
                             </tr>

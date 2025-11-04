@@ -1,50 +1,97 @@
-﻿@model Purchase
+﻿@model SupplierPurchaseViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Supplier Purchase";
 }
 
-<h1>Edit</h1>
+<div class="container py-4">
 
-<h4>Purchase</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PurchaseId" />
-            <div class="form-group">
-                <label asp-for="SupplierId" class="control-label"></label>
-                <input asp-for="SupplierId" class="form-control" />
-                <span asp-validation-for="SupplierId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PurchaseDate" class="control-label"></label>
-                <input type="date" asp-for="PurchaseDate" class="form-control" />
-                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalAmount" class="control-label"></label>
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-                <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
-                    <i class="fa-solid fa-arrow-left me-1"></i> Back
-                </a>
-                <button type="submit" class="btn btn-success rounded-pill px-4">
-                    <i class="fa-solid fa-circle-check me-1"></i> Save
-                </button>
-            </div>
-        </form>
+    <!-- 🔍 Search Section -->
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body bg-light rounded">
+            <form asp-action="Index" method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Product Name</label>
+                    <input type="text" name="productName" class="form-control" placeholder="Enter product name" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Category ID</label>
+                    <input type="number" name="categoryId" class="form-control" placeholder="Enter category Id" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Min Cost</label>
+                    <input type="number" name="minCost" class="form-control" placeholder="Min cost" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Max Cost</label>
+                    <input type="number" name="maxCost" class="form-control" placeholder="Max cost" />
+                </div>
+                <div class="col-md-3 d-grid">
+                    <input type="submit" class="btn btn-primary rounded-pill shadow-sm" value="Search" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <!-- 📦 Product Table -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <h4 class="fw-bold mb-3 text-dark">
+                <i class="fa-solid fa-boxes-stacked me-2 text-success"></i> Available Products
+            </h4>
+
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th><i class="fa-solid fa-box"></i> Product Name</th>
+                        <th><i class="fa-solid fa-tags"></i> Category</th>
+                        <th><i class="fa-solid fa-indian-rupee-sign"></i> Unit Cost</th>
+                        <th><i class="fa-solid fa-boxes-stacked"></i> Current Stock</th>
+                        <th><i class="fa-solid fa-gear"></i> Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Products == null || !Model.Products.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-muted py-4">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i> No products found
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.ProductName</td>
+                                <td>@product.CategorySet?.CategoryName</td>
+                                <td>@product.UnitPrice</td>
+                                <td>@product.StockQuantity</td>
+                                <td>
+                                    <form asp-controller="Purchase" asp-action="AddPurchaseItem" method="post" class="d-flex justify-content-center align-items-center gap-2">
+                                        <input type="hidden" name="purchaseId" value="@Model.Purchase.PurchaseId" />
+                                        <input type="hidden" name="productId" value="@product.ProductId" />
+
+                                        <input type="number" name="quantity" value="1" min="1" class="form-control w-25" />
+                                        <input type="number" name="unitCost" value="@product.UnitPrice" step="0.01" class="form-control w-25" />
+
+                                        <button type="submit" class="btn btn-success btn-sm rounded-pill shadow-sm">
+                                            <i class="fa-solid fa-plus"></i> Add
+                                        </button>
+
+                                        <a asp-controller="PurchaseItem" asp-action="GetPurchaseItem" asp-route-id="@Model.Purchase.PurchaseId" class="btn btn-outline-danger btn-sm">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </a>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

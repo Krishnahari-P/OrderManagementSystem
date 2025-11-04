@@ -100,15 +100,23 @@
                                 <td>@item.Status</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a asp-action="Edit" asp-route-id="@item.OrderId" class="btn btn-outline-success btn-sm">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.OrderId" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                        <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.OrderId">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                        </a>
+                                        @if (@item.Status == "Paid")
+                                        {
+                                            <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.OrderId">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.OrderId"
+                                               class="btn btn-primary btn-sm rounded-pill shadow-sm">
+                                                <i class="fa-solid fa-check me-2"></i> Confirm Order
+                                            </a>
+                                            <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.OrderId">
+                                                <i class="fa-solid fa-circle-info"></i>
+                                            </a>
+                                        }                                                                         
                                     </div>
                                 </td>
                             </tr>

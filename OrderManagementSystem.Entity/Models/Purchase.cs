@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,8 @@ namespace OrderManagementSystem.Entity.Models
         public Supplier? SupplierSet { get; set; }
         public ICollection<PurchaseItem>? PurchaseItems { get; set; } = new List<PurchaseItem>();
         public Payment? PaymentSet { get; set; }
+        [NotMapped]
+        public List<SelectListItem>? SupplierList { get; set; }
 
 
     }

@@ -9,11 +9,11 @@ namespace OrderManagementSystem.Services.Repository
 {
     public interface ICategoryRepository
     {
-        Task<List<Category>> GetAllCategoriesAsync(String categoryName, String decription);
-        Task<List<Category>> GetAllCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int id);
-        Task AddCategoryAsync(Category category);
-        Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int id);
+        public Task<List<Category>> GetAllCategoriesAsync(String categoryName, String decription);
+        public Task<List<Category>> GetAllCategoriesAsync();
+        public Task<Category> GetCategoryByIdAsync(int id);
+        public Task AddCategoryAsync(Category category);
+        public Task UpdateCategoryAsync(Category category);
+        public Task DeleteCategoryAsync(int id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using OrderManagementSystem.Entity.Models;
 using OrderManagementSystem.Services.Repository;
@@ -12,11 +13,13 @@ namespace OrderManagementSystem.Controllers
     {
         private readonly IPurchaseItemRepository _purchaseItemRepository;
         private readonly IToastNotification _nToastNotify;
+        private readonly AppDbContext _context;
 
-        public PurchaseItemController(IPurchaseItemRepository purchaseItemRepository,IToastNotification nToastNotify)
+        public PurchaseItemController(IPurchaseItemRepository purchaseItemRepository,IToastNotification nToastNotify,AppDbContext context)
         {
             _purchaseItemRepository = purchaseItemRepository;
             _nToastNotify = nToastNotify;
+            _context = context;
         }
         // GET: PurchaseItemController
         public async Task<ActionResult> Index(int purchaseItemId, int purchaseId, int productId)
@@ -24,7 +27,17 @@ namespace OrderManagementSystem.Controllers
             var purchaseItem= await _purchaseItemRepository.GetAllPurchaseItemAsync(purchaseItemId, purchaseId, productId);
             return View(purchaseItem);
         }
+        public async Task<IActionResult> GetPurchaseItem(int id)
+        {
+            var purchaseItems = await _purchaseItemRepository.GetPurchaseItemsByPurchaseIdAsync(id);
 
+            if (purchaseItems == null || !purchaseItems.Any())
+            {
+                _nToastNotify.AddErrorToastMessage("No purchase item found");
+                return View(new List<PurchaseItem>());
+            }
+            return View(purchaseItems);
+        }
         // GET: PurchaseItemController/Details/5
         public async Task<ActionResult> Detail(int id)
         {
@@ -104,7 +117,7 @@ namespace OrderManagementSystem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
-        public async Task<ActionResult> ConfirmDelete(int id, IFormCollection collection)
+        public async Task<ActionResult> ConfirmDelete(int id)
         {
             try
             {
@@ -116,6 +129,39 @@ namespace OrderManagementSystem.Controllers
             {
                 throw new Exception(e.Message);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveItem(int purchaseItemId)
+        {
+            if (purchaseItemId <= 0)
+            {
+                return BadRequest("Invalid purchase item ID.");
+            }
+
+            var purchaseItem = await _context.PurchaseItemSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.PurchaseItemId == purchaseItemId);
+            await _purchaseItemRepository.RemoveItemAsync(purchaseItemId);
+            return RedirectToAction("GetPurchaseItem", new { id = purchaseItem.PurchaseId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReduceQuantity(int purchaseItemId)
+        {
+            if (purchaseItemId <= 0)
+            {
+                return BadRequest("Invalid purchase item ID.");
+            }
+
+            var purchaseItem = await _context.PurchaseItemSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.PurchaseItemId == purchaseItemId);
+            if (purchaseItem == null)
+            {
+                return NotFound("Purchase item not found.");
+            }
+            await _purchaseItemRepository.ReduceQuantityAsync(purchaseItemId);
+            return RedirectToAction("GetPurchaseItem", new { id = purchaseItem.PurchaseId });
         }
     }
 }

@@ -125,7 +125,54 @@ namespace OrderManagementSystem.Services.Repository
 
             return true;
         }
+        public async Task<Purchase?> GetPurchaseForPaymentAsync(int purchaseId)
+        {
+            return await _context.PurchaseSet
+                .Include(p => p.SupplierSet) 
+                .Include(p => p.PurchaseItems)
+                    .ThenInclude(pi => pi.ProductSet)
+                .Include(p => p.PaymentSet)
+                .FirstOrDefaultAsync(p => p.PurchaseId == purchaseId);
+        }
 
 
+        [HttpPost]
+        public async Task<bool> ConfirmPurchasePaymentAsync(int purchaseId)
+        {
+            var purchase = await _context.PurchaseSet
+                .Include(p => p.PurchaseItems)
+                .ThenInclude(pi => pi.ProductSet)
+                .FirstOrDefaultAsync(p => p.PurchaseId == purchaseId);
+
+            if (purchase == null)
+            {
+                return false;
+            }
+            foreach (var item in purchase.PurchaseItems)
+            {
+                if (item.ProductSet == null)
+                    return false;
+
+                item.ProductSet.StockQuantity += item.Quantity;
+                _context.ProductSet.Update(item.ProductSet);
+            }
+            if (purchase.PaymentSet == null)
+            {
+                var payment = new Payment
+                {
+                    PurchaseId = purchase.PurchaseId,
+                    PaymentDate = DateTime.Now,
+                    AmountPaid = purchase.TotalAmount,
+                    PaymentMethod = "Bank Transfer", // or "Online"
+                    TransactionReference = Guid.NewGuid().ToString("N").Substring(0, 12).ToUpper()
+                };
+                _context.PaymentSet.Add(payment);
+            }
+            purchase.Status = "Paid";
+            _context.PurchaseSet.Update(purchase);
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

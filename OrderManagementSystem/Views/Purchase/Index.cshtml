@@ -39,9 +39,6 @@
         <h2 class="fw-bold text-black">
             <i class="fa-solid fa-tag me-2 text-black"></i> Purchase Details
         </h2>
-        <a asp-action="Create" class="btn btn-success shadow-sm">
-            <i class="fa-solid fa-user-plus me-2"></i> Add Purchase
-        </a>
     </div>
 
     <!-- Search Section -->
@@ -105,9 +102,6 @@
                                     <div class="btn-group" role="group">
                                         <a asp-action="Edit" asp-route-id="@item.PurchaseId" class="btn btn-outline-success btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.PurchaseId" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i>
                                         </a>
                                         <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.PurchaseId">
                                             <i class="fa-solid fa-circle-info"></i>

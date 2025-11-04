@@ -100,12 +100,9 @@
                                 <td>@item.UnitPrice</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a asp-action="Edit" asp-route-id="@item.ProductSet.ProductName" class="btn btn-outline-success btn-sm">
+                                        @* <a asp-action="Edit" asp-route-id="@item.ProductSet.ProductName" class="btn btn-outline-success btn-sm">
                                             <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a asp-action="Delete" asp-route-id="@item.OrderItemId" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
+                                        </a> *@
                                         <a href="#" class="Details btn btn-outline-primary btn-sm" data-id="@item.OrderItemId">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </a>

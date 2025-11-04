@@ -1,0 +1,44 @@
+﻿@model Purchase
+
+@{
+    ViewData["Title"] = "Payment Success";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4 text-center">
+        <div class="card-header bg-success text-white">
+            <h3><i class="fa-solid fa-circle-check me-2"></i>Payment Successful</h3>
+        </div>
+        <div class="card-body">
+            <p class="fs-5 text-success fw-bold">Your payment has been processed successfully!</p>
+            <hr />
+
+            <dl class="row">
+                <dt class="col-sm-4 text-end fw-bold">Purchase ID:</dt>
+                <dd class="col-sm-8 text-start">@Model.PurchaseId</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Supplier:</dt>
+                <dd class="col-sm-8 text-start">@Model.SupplierSet?.SupplierName</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Payment Method:</dt>
+                <dd class="col-sm-8 text-start">@Model.PaymentSet?.PaymentMethod</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Payment Date:</dt>
+                <dd class="col-sm-8 text-start">@Model.PaymentSet?.PaymentDate.ToString("dd-MMM-yyyy")</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Transaction Reference:</dt>
+                <dd class="col-sm-8 text-start">@Model.PaymentSet?.TransactionReference</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Total Amount:</dt>
+                <dd class="col-sm-8 text-start">@Model.TotalAmount.ToString("C")</dd>
+
+                <dt class="col-sm-4 text-end fw-bold">Order Status:</dt>
+                <dd class="col-sm-8 text-start">@Model.Status</dd>
+            </dl>
+
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary mt-3">
+                <i class="fa-solid fa-arrow-left me-2"></i>Back to Products
+            </a>
+        </div>
+    </div>
+</div>

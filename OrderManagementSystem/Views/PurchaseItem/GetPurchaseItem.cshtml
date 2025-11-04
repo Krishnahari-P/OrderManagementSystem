@@ -1,0 +1,90 @@
+﻿@model IEnumerable<PurchaseItem>
+
+@{
+    ViewData["Title"] = "Purchase Items";
+}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-black">
+            <i class="fa-solid fa-cart-shopping me-2 text-success"></i> Purchase Items
+        </h2>
+    </div>
+
+    <!-- Purchase Items Table -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th><i class="fa-solid fa-list-ol me-2 text-primary"></i> Purchase Item ID</th>
+                        <th><i class="fa-solid fa-box me-2 text-success"></i> Product Name</th>
+                        <th><i class="fa-solid fa-cubes me-2 text-warning"></i> Quantity</th>
+                        <th><i class="fa-solid fa-indian-rupee-sign me-2 text-info"></i> Unit Cost</th>
+                        <th><i class="fa-solid fa-sack-dollar me-2 text-danger"></i> Subtotal</th>
+                        <th><i class="fa-solid fa-gear"></i> Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-muted py-4">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i> No purchase items found.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        decimal total = 0;
+                        @foreach (var item in Model)
+                        {
+                            var subtotal = item.Quantity * item.UnitCost;
+                            total += subtotal;
+                            <tr>
+                                <td>@item.PurchaseItemId</td>
+                                <td>@item.ProductSet.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.UnitCost</td>
+                                <td>@subtotal</td>
+                                <td>
+                                    <form asp-action="ReduceQuantity" method="post" style="display:inline;">
+                                        <input type="hidden" name="purchaseItemId" value="@item.PurchaseItemId" />
+                                        <button type="submit" class="btn btn-outline-warning btn-sm" title="Reduce Quantity">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                    </form>
+                                    <form asp-action="RemoveItem" method="post" style="display:inline;">
+                                        <input type="hidden" name="purchaseItemId" value="@item.PurchaseItemId" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Remove Item">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+
+                        <!-- Total Row -->
+                        <tr class="table-light fw-bold">
+                            <td colspan="4" class="text-end">Total:</td>
+                            <td><i class="fa-solid fa-indian-rupee-sign me-1"></i>@total</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Payment Button -->
+    @if (Model != null && Model.Any())
+    {
+        <a asp-controller="Payment" asp-action="CheckPurchasePayment" asp-route-purchaseId="@Model.First().PurchaseId"
+           class="btn btn-success btn-lg shadow-sm mt-3">
+            <i class="fa-solid fa-credit-card me-2"></i> Make Payment
+        </a>
+
+    }
+</div>
